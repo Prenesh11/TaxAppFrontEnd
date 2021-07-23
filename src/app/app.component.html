@@ -1,19 +1,67 @@
+<body>
 <h1>Tax calculator</h1>
+<script>
+  function ShowDiv() {
+    document.getElementById("myDiv").style.display = "";
+  }
+
+</script>
 <form #simpleForm="ngForm" (ngSubmit)="onSubmit(simpleForm.value)">
-  <label for="fname">Tax year:</label><br>
-  <input type="text" ngModel name="taxYear">
+
   <br><br>
   <label for="fname">Age:</label><br>
-  <input type="text" ngModel name="age">
+  <input type="number" ngModel name="age">
   <br><br>
   <label for="fname">Total taxable earnings:</label><br>
-  <input type="text" ngModel name="totalTaxableEarning">
+  <input type="number" ngModel name="totalTaxableEarning">
   <br><br>
   <label for="fname">Total member on medical aid:</label><br>
-  <input type="text" ngModel name="medicalAidMainMemberAndDependants">
+  <input type="number" ngModel name="medicalAidMainMemberAndDependants">
   <br><br>
-  <label for="fname">Frequency:</label><br>
-  <input type="text" ngModel name="taxFrequency">
+  <select class="select-css" name="taxYear" ngModel id="taxYear">
+    <option value="" selected disabled hidden>Select Tax Year</option>
+    <option value="2020">Tax Year 2020</option>
+    <option value="2021">Tax Year 2021</option>
+  </select>
   <br><br>
-  <button type="submit">Calculate tax breakdown</button>
+  <select class="select-css" name="taxFrequency" ngModel id="taxFrequency">
+    <option value="" selected disabled hidden>Select Annually/Monthly</option>
+    <option value="1">Calulate Tax Monthly</option>
+    <option value="2">Calulate Tax Annualy</option>
+  </select>
+  <br><br>
+  <button class="button button1" type="submit" value="Show Div" onsubmit="ShowDiv()">Calculate tax breakdown</button>
+  <br><br>
 </form>
+
+<div id="myDiv">
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Amount</th>
+    </tr>
+    <tr>
+      <td><label for="fname">Monthly Tax before credit:</label></td>
+      <td>R {{serviceResponse?.taxPayableMonthlyBeforeCredit}}</td>
+    </tr>
+    <tr>
+      <td><label for="fname">Annual Tax before credit:</label></td>
+      <td>R {{serviceResponse?.taxPayableAnnuallyBeforeCredit}}</td>
+    </tr>
+    <tr>
+      <td><label for="fname">Tax credit:</label></td>
+      <td>R {{serviceResponse?.taxCredit}}</td>
+    </tr>
+    <tr>
+      <td><label for="fname">PAYE due after Tax credit:</label></td>
+      <td>R {{serviceResponse?.payeDueAfterTaxCredit}}</td>
+    </tr>
+
+    <tr>
+      <td><label for="fname">Net Cash Pay:</label></td>
+      <td>R {{serviceResponse?.netCashPay}}</td>
+    </tr>
+  </table>
+</div>
+
+</body>

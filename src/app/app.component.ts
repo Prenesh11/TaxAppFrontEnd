@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import {HttpClient} from '@angular/common/http'
+import { HttpClient, HttpErrorResponse } from '@angular/common/http'
+import { IncomeTaxResponse } from './incomeTaxResponse';
+import { IncometaxService } from './incometax.service';
 
 @Component({
   selector: 'app-root',
@@ -8,15 +10,23 @@ import {HttpClient} from '@angular/common/http'
 })
 export class AppComponent {
   title = 'incomeTaxFrontEnd';
+  public serviceResponse!: IncomeTaxResponse;
+  url = 'http://localhost:8080/calculateIncomeTax'
 
-  constructor(private http:HttpClient){}
-
-  onSubmit(data: any){
-
-    console.warn(data)
+  constructor(private taxService: IncometaxService) { }
 
 
-    this.http.post('http://localhost:8080/calculateIncomeTax', data)
-    .subscribe((result)=>{console.warn("result",result)})
+  onSubmit(data: any) {
+    console.log(data)
+    this.taxService.calculateIncomeTax(data).subscribe(
+      (response: IncomeTaxResponse) => {
+        this.serviceResponse = response;
+        console.log(this.serviceResponse)
+      },
+      (error: HttpErrorResponse) => {
+        console.log(error.message);
+      }
+    );
+
   }
 }
